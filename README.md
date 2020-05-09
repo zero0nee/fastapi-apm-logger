@@ -13,7 +13,7 @@ Vision:
 - [ ] Add a Launch Stack AWS button to the API
 - [ ] Create a Elastic search example endpoint in fast API 
 
-#### Introduction
+## Introduction
 
 This project aims to show how APS logging and dashboard can be integrated with the excelent `fastAPI` framework created by my personal hero [tiangolo](https://github.com/tiangolo). 
 
@@ -28,7 +28,7 @@ From the elastic [website](https://www.elastic.co/observability)
 
 ![apm-architecture](https://www.elastic.co/guide/en/apm/get-started/current/images/apm-architecture-cloud.png)
 
-#### Getting started
+## Getting started
 
 This project is a demo to show feature and usage of elastic apm, based on docker and flask.
 
@@ -52,10 +52,10 @@ for i in $(seq 100); do http :8000/checkout email="${i}@email.domain" username="
 http://localhost:5601/app/kibana
 ```
 
-#### Screenshot
+### Screenshot
 
 ![](screenshots/transaction.png)
 
-#### Reference
+### Reference
 - [APM overview](https://www.elastic.co/guide/en/apm/get-started/7.6/index.html)
 - [Fast API support | APM Python Agent](https://www.elastic.co/guide/en/apm/agent/python/master/starlette-support.html)
