@@ -50,8 +50,6 @@ for i in $(seq 100); do http :8000/checkout email="${i}@email.domain" username="
 http://localhost:5601/app/kibana
 ```
 
-### Screenshot
-
 ![](screenshots/transaction.png)
 
 ### Reference
