@@ -1,5 +1,3 @@
-Elastic APM Demo
-
 ## Roadmap
 Vision:
 > Deploy a modern `fastapi` API template app with build in preformance monitoring and error logging using `elastic APM`, with the press of a button using AWS `CloudFormation`. 
