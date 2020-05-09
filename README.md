@@ -26,7 +26,7 @@ Backend related projects will always integrate some essential services, e.g.:
 From the elastic [website](https://www.elastic.co/observability)
 > Bring your logs, metrics, and APM traces together at scale in a single stack so you can monitor and react to events happening anywhere in your environment. And it's free and open.
 
-![apm-architecture](https://www.elastic.co/guide/en/apm/get-started/current/apm-architecture.png)
+![apm-architecture](https://www.elastic.co/guide/en/apm/get-started/current/images/apm-architecture-cloud.png)
 
 #### Getting started
 
