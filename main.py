@@ -16,6 +16,7 @@ from elasticapm.handlers.logging import LoggingFilter
 from elasticapm.handlers.logging import Formatter
 import elasticapm
 from logstash_async.handler import AsynchronousLogstashHandler
+import logstash
 
 # Load dotenv
 python_env = os.getenv('PYTHON_ENV') or 'development'
@@ -25,13 +26,12 @@ dotenv_path = os.path.join(
 )
 dotenv.load_dotenv(dotenv_path)
 
-host = 'localhost'
+host = '127.0.0.1'
 port = 5000
 
 logger = logging.getLogger('python-logstash-logger')
 logger.setLevel(logging.INFO)
-logger.addHandler(AsynchronousLogstashHandler(
-    host, port))
+logger.addHandler(logstash.LogstashHandler(host, port, version=1))
 
 # If you don't want to write to a SQLite database, then you do
 # not have to specify a database_path.

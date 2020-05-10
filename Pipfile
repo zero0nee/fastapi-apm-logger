@@ -13,6 +13,7 @@ httpie = "*"
 elastic-apm = "*"
 pytest = "*"
 python-logstash-async = "*"
+python-logstash = "*"
 
 [requires]
 python_version = "3.8"
