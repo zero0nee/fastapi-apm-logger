@@ -13,7 +13,7 @@ Vision:
 
 ## Introduction
 
-This project aims to show how APS logging and dashboard can be integrated with the excelent `fastAPI` framework created by my personal hero [tiangolo](https://github.com/tiangolo). 
+This project aims to show how APS logging and dashboard can be integrated with the excelent `fastAPI` framework created by my personal hero [tiangolo](https://github.com/tiangolo), and the `ELK` stack is using docker-compose images from [docker-elk](https://github.com/deviantony/docker-elk) by deviantony. 
 
 Backend related projects will always integrate some essential services, e.g.:
 
@@ -49,9 +49,17 @@ for i in $(seq 100); do http :8000/checkout email="${i}@email.domain" username="
 ```
 http://localhost:5601/app/kibana
 ```
+The stack is pre-configured with the following privileged bootstrap user:
+
+- **user**: *elastic*
+- **password**: *changeme*
 
 ![](screenshots/transaction.png)
 
+5. Test sending logs to logstash
+```
+cat ./test.log | nc -c localhost 5000
+```
 ### Reference
 - [APM overview](https://www.elastic.co/guide/en/apm/get-started/7.6/index.html)
 - [Fast API support | APM Python Agent](https://www.elastic.co/guide/en/apm/agent/python/master/starlette-support.html)

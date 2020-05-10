@@ -12,6 +12,7 @@ uvicorn = "*"
 httpie = "*"
 elastic-apm = "*"
 pytest = "*"
+python-logstash-async = "*"
 
 [requires]
 python_version = "3.8"

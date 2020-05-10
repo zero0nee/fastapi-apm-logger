@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "3102fce73d6b90f2f9e20da1be239c551bfbb417d3ed6e35001b6ee11c4db983"
+            "sha256": "b8c31d8d98ab4d7ea115815aad73ff10ad6fbe6d1f79648c7717080431d1020f"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -125,6 +125,13 @@
             ],
             "version": "==2.9"
         },
+        "limits": {
+            "hashes": [
+                "sha256:0e5f8b10f18dd809eb2342f5046eb9aa5e4e69a0258567b5f4aa270647d438b3",
+                "sha256:f0c3319f032c4bfad68438ed1325c0fac86dac64582c7c25cddc87a0b658fa20"
+            ],
+            "version": "==1.5.1"
+        },
         "more-itertools": {
             "hashes": [
                 "sha256:5dd8bcf33e5f9513ffa06d5ad33d78f31e1931ac9a18f33d37e77a180d393a7c",
@@ -182,6 +189,13 @@
             ],
             "version": "==2.6.1"
         },
+        "pylogbeat": {
+            "hashes": [
+                "sha256:56f318af0daafcc5fd0ca8f1396bd8758fb54c574387b11507e482ff63acec56",
+                "sha256:d449b9e08faa808baeacc5df5885271731d1b42792651e46cdfce5f3957e1069"
+            ],
+            "version": "==1.0.4"
+        },
         "pyparsing": {
             "hashes": [
                 "sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1",
@@ -204,6 +218,14 @@
             ],
             "index": "pypi",
             "version": "==0.13.0"
+        },
+        "python-logstash-async": {
+            "hashes": [
+                "sha256:96492d7080bd197baf889d3ea927206e987161e08d3fce9cfb0557c6c6d4013e",
+                "sha256:c07d7f80d06b807ac8ab613562d7f246056ffb57320e60c714cd421ff053c2c2"
+            ],
+            "index": "pypi",
+            "version": "==1.6.4"
         },
         "requests": {
             "hashes": [
