@@ -56,10 +56,13 @@ The stack is pre-configured with the following privileged bootstrap user:
 
 ![](screenshots/transaction.png)
 
-5. Test sending logs to logstash
+5. Go to logs settings: 
 ```
-cat ./test.log | nc -c localhost 5000
+http://localhost:5601/app/infra#/logs/settings
 ```
+ - Make sure to add `*, filebeat-*` as **Log indices**
+ - Make sure to add `elasticapm_transaction_id` to `Log Columns`
+ 
 ### Reference
 - [APM overview](https://www.elastic.co/guide/en/apm/get-started/7.6/index.html)
 - [Fast API support | APM Python Agent](https://www.elastic.co/guide/en/apm/agent/python/master/starlette-support.html)
