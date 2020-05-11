@@ -6,10 +6,12 @@ Vision:
 - [x] docker-compose for ELK and APM stack
 - [x] Example endpoints and data
 - [x] Tests in pytest
+- [x] Add logstash support, and correlate transactions/requests with logs. 
 - [ ] Add codeship support and system tests
 - [ ] Cloudformation template for FastAPI and ELK. 
 - [ ] Add a Launch Stack AWS button to the API
 - [ ] Create a Elastic search example endpoint in fast API 
+- [ ] Perhaps switch to `python-logstash-async` for async communication. 
 
 ## Introduction
 
@@ -40,12 +42,21 @@ make local-setup-environment
 make local-run
 ```
 
-3. Send some data to the API:
+3. Create index patterns for `logstash` and `apm` in `kibana`. Make sure to only run the comands after the previous command has been fully executed. 
+```
+make local-create-index
+```
+
+4. Send some data to the API:
 ```
 for i in $(seq 100); do http :8000/checkout email="${i}@email.domain" username="${i}" cost_spend="${i}" item_count="1"; done
 ```
+or simply run pytest
+```
+pytest
+```
 
-4. See preformance metrics and logging in `Kibana`. 
+5. See preformance metrics and logging in `Kibana`. 
 ```
 http://localhost:5601/app/kibana
 ```
@@ -54,15 +65,46 @@ The stack is pre-configured with the following privileged bootstrap user:
 - **user**: *elastic*
 - **password**: *changeme*
 
+See the response time of your latest requests by navigating to http://localhost:5601/app/apm#/services/fastapi-apm-demo/transactions. In APM, requests are called `transactions`, and each transaction will have a `transaction.id`. 
 ![](screenshots/transaction.png)
 
-5. Go to logs settings: 
+See all error messages for your transactions by navigating to http://localhost:5601/app/apm#/services/fastapi-apm-demo/errors
+![](screenshots/errors.png)
+
+See the output of your python `logger` by navigating to: http://localhost:5601/app/infra#/logs/stream . If you want to correlate your logs with your transactions (i.e. requests) you can do this through the `transaction.id` property in the logs. You can moreover add `transaction.id` as a logs steam column by going to: http://localhost:5601/app/infra#/logs/settings
+![](screenshots/logs.png)
+
+
+
+### Modification done to docker-elk
+> IMPORTANT: These modifications are already done in the repo by default. This is just an FYI in case you want to fork the project and use a newer version of the `docker-elk`. 
+
+As previously mentioned, the directory `docker-elk` is just an exact copy of the [docker-elk](https://github.com/deviantony/docker-elk) project, that contains `docker-compose` files for creating the `ELK` stack. 
+
+However the following two rows are added to `kibana.yml` to make the `logstash` logs in fastapi detectable inside `Kibana`.
 ```
-http://localhost:5601/app/infra#/logs/settings
+xpack.infra.sources.default.logAlias: logstash-*,default-logs-*,filebeat-*,kibana_sample_data_logs*
+xpack.infra.sources.default.metricAlias: logstash-*,metricbeat-*
 ```
- - Make sure to add `*, filebeat-*` as **Log indices**
- - Make sure to add `elasticapm_transaction_id` to `Log Columns`
- 
+
+And added replaced the `logstash.conf` file with the following pipeline to support `python-logstash-async`.
+```
+input {
+	udp {
+		port => 5000
+		codec => json
+	}
+}
+output {
+	elasticsearch {
+		hosts => "elasticsearch:9200"
+		user => "elastic"
+		password => "changeme"
+		codec => rubydebug
+	}
+}
+
+```
 ### Reference
 - [APM overview](https://www.elastic.co/guide/en/apm/get-started/7.6/index.html)
 - [Fast API support | APM Python Agent](https://www.elastic.co/guide/en/apm/agent/python/master/starlette-support.html)

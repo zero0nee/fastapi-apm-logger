@@ -6,6 +6,8 @@ server.name: kibana
 server.host: "0"
 elasticsearch.hosts: [ "http://elasticsearch:9200" ]
 xpack.monitoring.ui.container.elasticsearch.enabled: true
+xpack.infra.sources.default.logAlias: logstash-*,default-logs-*,filebeat-*,kibana_sample_data_logs*
+xpack.infra.sources.default.metricAlias: logstash-*,metricbeat-*
 
 ## X-Pack security credentials
 #

@@ -11,6 +11,19 @@ local-run:
 	@docker-compose -f ./docker-elk/docker-compose.yml -f ./docker-elk/extensions/apm-server/apm-server-compose.yml up
 	@pipenv run uvicorn main:app --reload
 
+local-create-index:
+	@echo "Adding logstash index to Kibana"
+	@curl -XPOST -D- 'http://localhost:5601/api/saved_objects/index-pattern' \
+		-H 'Content-Type: application/json' \
+		-H 'kbn-version: 7.6.2' \
+		-u elastic:changeme \
+		-d '{"attributes":{"title":"logstash-*","timeFieldName":"@timestamp"}}' 
+	@curl -XPOST -D- 'http://localhost:5601/api/saved_objects/index-pattern' \
+		-H 'Content-Type: application/json' \
+		-H 'kbn-version: 7.6.2' \
+		-u elastic:changeme \
+		-d '{"attributes":{"title":"apm-*","timeFieldName":"@timestamp"}}' 
+
 local-run-tests:
 	@pipenv run pytest
 
