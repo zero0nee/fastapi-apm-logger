@@ -66,12 +66,15 @@ The stack is pre-configured with the following privileged bootstrap user:
 - **password**: *changeme*
 
 See the response time of your latest requests by navigating to http://localhost:5601/app/apm#/services/fastapi-apm-demo/transactions. In APM, requests are called `transactions`, and each transaction will have a `transaction.id`. 
+
 ![](screenshots/transaction.png)
 
 See all error messages for your transactions by navigating to http://localhost:5601/app/apm#/services/fastapi-apm-demo/errors
+
 ![](screenshots/errors.png)
 
 See the output of your python `logger` by navigating to: http://localhost:5601/app/infra#/logs/stream . If you want to correlate your logs with your transactions (i.e. requests) you can do this through the `transaction.id` property in the logs. You can moreover add `transaction.id` as a logs steam column by going to: http://localhost:5601/app/infra#/logs/settings
+
 ![](screenshots/logs.png)
 
 
