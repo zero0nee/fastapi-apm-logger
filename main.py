@@ -11,8 +11,6 @@ import logging
 from fastapi import Body, FastAPI
 from pydantic import BaseModel
 from elasticapm.contrib.starlette import make_apm_client, ElasticAPM
-from elasticapm.handlers.logging import LoggingFilter
-from elasticapm.handlers.logging import Formatter
 import elasticapm
 import logstash
 
