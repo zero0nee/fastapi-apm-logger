@@ -1,3 +1,18 @@
+# TODO
+1. Change `main.py` so that loggs are printed to a file
+2. Create a Filebeat config referencing that file https://www.elastic.co/blog/structured-logging-filebeat
+3. Create a docker-compose file for the App + Fileneat + Elk
+4. Create a `Make` target for sending data to the API via `bash`
+	- 
+	- 
+
+
+1. Create a branch for Elastic Cloud
+2. Pip install https://github.com/eht16/pylogbeat/
+3. Screenshot how to configer
+
+1. 
+
 ## Roadmap
 Vision:
 > Deploy a modern `fastapi` API template app with build in preformance monitoring and error logging using `elastic APM`, with the press of a button using AWS `CloudFormation`. 
@@ -111,3 +126,11 @@ output {
 ### Reference
 - [APM overview](https://www.elastic.co/guide/en/apm/get-started/7.6/index.html)
 - [Fast API support | APM Python Agent](https://www.elastic.co/guide/en/apm/agent/python/master/starlette-support.html)
+
+```
+sudo docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk sebp/elk
+#http://localhost:5601/
+curl -L -O https://artifacts.elastic.co/downloads/apm-server/apm-server-7.6.1-amd64.deb
+dpkg -i apm-server-7.6.1-amd64.deb
+service apm-server start
+```

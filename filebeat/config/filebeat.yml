@@ -1,0 +1,18 @@
+filebeat.prospectors:
+- input_type: log
+  paths: ["app/app_log.log"]
+  json.message_key: event
+  json.keys_under_root: true
+  fields:
+    planet: Magrathea
+    service: ${SERVICE_NAME}
+  tags: [
+    "python",
+    "log",
+    "json"
+  ]
+
+output.elasticsearch:
+  hosts: ["elasticsearch:9200"]
+  template.name: filebeat
+  template.path: filebeat.template.json

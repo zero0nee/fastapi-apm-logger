@@ -11,8 +11,8 @@ import logging
 from fastapi import Body, FastAPI
 from pydantic import BaseModel
 from elasticapm.contrib.starlette import make_apm_client, ElasticAPM
+from elasticapm.handlers.logging import LoggingFilter, Formatter
 import elasticapm
-import logstash
 
 # Load dotenv
 python_env = os.getenv('PYTHON_ENV') or 'development'
@@ -22,12 +22,14 @@ dotenv_path = os.path.join(
 )
 dotenv.load_dotenv(dotenv_path)
 
-# Define a logstash logger.
-host = '127.0.0.1'
-port = 5000
-logger = logging.getLogger('python-logstash-logger')
+# Parse loggs to be correlated with APM - https://www.elastic.co/guide/en/apm/agent/python/master/log-correlation.html
+formatter = Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+handler = logging.FileHandler('app_log.log')
+handler.setFormatter(formatter)
+handler.addFilter(LoggingFilter())
+logger = logging.getLogger('')
 logger.setLevel(logging.INFO)
-logger.addHandler(logstash.LogstashHandler(host, port, version=1))
+logger.addHandler(handler)
 
 # Create the fastapi app
 app = FastAPI()
@@ -118,5 +120,8 @@ def checkout(request: Purchase = Body(...)):
     span_id = elasticapm.get_span_id()
     logger.info('Current span_id: ' + str(span_id))
 
+    # As you can also see the apm_client is also accessable from the elasticapm
+    elasticapm.Client.logger.root.handlers[0].records == apm_client.logger.root.handlers[0].records
+    
     return result
 
