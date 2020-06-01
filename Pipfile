@@ -14,6 +14,7 @@ elastic-apm = "*"
 pytest = "*"
 python-logstash-async = "*"
 python-logstash = "*"
+structlog = "*"
 
 [requires]
 python_version = "3.8"

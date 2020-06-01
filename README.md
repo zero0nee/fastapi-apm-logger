@@ -1,9 +1,9 @@
 # TODO
-1. Change `main.py` so that loggs are printed to a file
+1. Change `main.py` so that loggs are printed to a file using `structlog` https://www.structlog.org/en/stable/
 2. Create a Filebeat config referencing that file https://www.elastic.co/blog/structured-logging-filebeat
 3. Create a docker-compose file for the App + Fileneat + Elk
 4. Create a `Make` target for sending data to the API via `bash`
-	- 
+
 	- 
 
 

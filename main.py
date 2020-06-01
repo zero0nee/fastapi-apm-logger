@@ -13,6 +13,9 @@ from pydantic import BaseModel
 from elasticapm.contrib.starlette import make_apm_client, ElasticAPM
 from elasticapm.handlers.logging import LoggingFilter, Formatter
 import elasticapm
+from structlog import PrintLogger, wrap_logger
+from elasticapm.handlers.structlog import structlog_processor
+from structlog.processors import JSONRenderer
 
 # Load dotenv
 python_env = os.getenv('PYTHON_ENV') or 'development'
@@ -23,13 +26,10 @@ dotenv_path = os.path.join(
 dotenv.load_dotenv(dotenv_path)
 
 # Parse loggs to be correlated with APM - https://www.elastic.co/guide/en/apm/agent/python/master/log-correlation.html
-formatter = Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-handler = logging.FileHandler('app_log.log')
-handler.setFormatter(formatter)
-handler.addFilter(LoggingFilter())
-logger = logging.getLogger('')
-logger.setLevel(logging.INFO)
-logger.addHandler(handler)
+# Using structlog https://www.structlog.org/en/stable/examples.html
+logger = wrap_logger(PrintLogger(), processors=[structlog_processor,JSONRenderer(indent=1, sort_keys=True)])
+log = logger.new()
+log.msg("some_event")
 
 # Create the fastapi app
 app = FastAPI()
@@ -75,12 +75,12 @@ def checkout(request: Purchase = Body(...)):
     }
 
     #Different logging levels
-    logger.debug('This is a debug message')
-    logger.info('This is an info message')
-    logger.warning('This is a warning message')
-    logger.error('This is an error message')
-    logger.critical('This is a critical message')
-    logger.exception("This is an exception")
+    log.debug('This is a debug message')
+    log.info('This is an info message')
+    log.warning('This is a warning message')
+    log.error('This is an error message')
+    log.critical('This is a critical message')
+    log.exception("This is an exception")
     
     # add extra field to logstash message
     extra = {
@@ -91,7 +91,7 @@ def checkout(request: Purchase = Body(...)):
         'test_integer': 123,
         'test_list': [1, 2, '3'],
     }
-    logger.info('test extra fields', extra=extra)
+    log.info('test extra fields', extra=extra)
 
     #Capture an arbitrary exception by calling capture_exception:
     try:
@@ -110,15 +110,15 @@ def checkout(request: Purchase = Body(...)):
 
     # Get the id of the current transaction.
     transaction_id = elasticapm.get_transaction_id()
-    logger.info('Current transaction_id: ' + str(transaction_id))
+    log.info('Current transaction_id: ' + str(transaction_id))
 
     # Get the trace_id of the current transaction’s trace.
     trace_id = elasticapm.get_trace_id()
-    logger.info('Current trace_id: ' + str(trace_id))
+    log.info('Current trace_id: ' + str(trace_id))
 
     # Get the id of the current span.
     span_id = elasticapm.get_span_id()
-    logger.info('Current span_id: ' + str(span_id))
+    log.info('Current span_id: ' + str(span_id))
 
     # As you can also see the apm_client is also accessable from the elasticapm
     elasticapm.Client.logger.root.handlers[0].records == apm_client.logger.root.handlers[0].records
